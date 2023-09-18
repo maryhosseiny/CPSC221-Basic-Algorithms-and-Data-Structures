@@ -1,5 +1,17 @@
-Introduction to Debugging
-Alice is writing an image recognition program. She's working on the tracing algorithm, which turns the image into a trace of the outlines in the image. After going through all the compiler errors (sketchify.cpp:13, etc), the program finally compiles! Overjoyed to have a program, she decides to test it on a couple images.
+sketchify.cpp was edited so that three errors were debugged out.
 
-Segmentation Fault
-Ouch. What does she do now? She has to debug her code.
+Methods of Debugging:
+1) Print statements (cout << "line " << __LINE__ << ": x = " << x << endl;)
+2) Command Line Debugger with these commands:
+- run (r)                  # Run the program from start
+- next (n)                 # Execute the next line of code
+- step (s)                 # Step into function in current line
+- continue (c)             # Continue until next break point
+- break (b) <file:line>    # Set a breakpoint at the location
+- backtrace (bt)           # Print function call stack, most recent first
+- print (p) <expression>   # Evaluates and prints expression
+- info locals              # Prints info about all local variables
+- info args                # Prints info about all function arguments
+- quit (q)                 # Quit GDB
+3) Comparing image outputs:
+- Using this command: compare out2.png given_imgs/out_2.png comparison.png
