@@ -1,0 +1,5 @@
+Introduction to Debugging
+Alice is writing an image recognition program. She's working on the tracing algorithm, which turns the image into a trace of the outlines in the image. After going through all the compiler errors (sketchify.cpp:13, etc), the program finally compiles! Overjoyed to have a program, she decides to test it on a couple images.
+
+Segmentation Fault
+Ouch. What does she do now? She has to debug her code.
