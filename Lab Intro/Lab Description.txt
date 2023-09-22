@@ -1,1 +1,48 @@
+RGB—red, green, and blue—is a representation of colour based on the law of light additivity. By varying the contributions of each of the three additive primaries, we can produce a range of specific colours. The precision with which different shades can be produced depends on the number of discrete levels available in each of the primary colour channels.
 
+In the model used for this lab activity, each of the red, green, and blue channels will support 256 different levels in the range of [0, 255].
+
+For example:
+
+"UBC Yellow" has a contribution of 247 on the red channel, 184 on the green channel, and 0 on the blue channel
+"UBC Blue" has a contribution of 12 on the red channel, 35 on the green channel, and 68 on the blue channel
+
+Writing your first class: RGBAPixel
+Create a class called RGBAPixel whose functionality is described here:
+
+An RGBA pixel is characterized by 3 unsigned chars: r representing red, g representing green, b representing blue, and 1 double: a representing the transparency value typically called alpha (in the range of [0, 1]).
+
+You will create 3 constructors:
+
+The default contstructor RGBAPixel() sets the default pixel to white, which is a pixel with the maximum contribution on all visible colour channels, and alpha 1.0.
+A 3 argument constructor whose integer parameters are used to set the red, green, and blue channels and full opacity.
+A 4 argument constructor whose parameters are used to set the red, green, blue, and alpha.
+A few important things to remember:
+
+All members of RGBAPixel are public,
+RGBAPixel is part of the cs221util namespace,
+Following convention, the class definition should be placed in a file called RGBAPixel.h, and the member function implementations should be placed in a file called RGBAPixel.cpp.
+RGBAPixel.h and RGBAPixel.cpp should both be created in the cs221util directory inside lab_intro.
+Make sure to add the include guards in RGBAPixel.h!
+You may want to look at PNG.h and PNG.cpp within the cs221util directory as a reference.
+
+Compile it!
+A Makefile has been provided for you for this lab (you should familiarize yourself at least with where to find the names of the executables). To compile your program, run:
+
+make
+If make fails, you will see error messages. We use clang, which aims to provide descriptive error messages that try to help you not only spot the error but also will provide a suggestion on how to fix the bug.
+
+Writing the PNG manipulation functions
+The rest of this lab assignment uses the RGBAPixel class to manipulate an image. A small program has been written in main.cpp that loads rosegarden.png, calls various manipulation functions, and writes out the images as out-_____.png.
+
+All of these manipulation functions are in lab_intro.cpp. The first one, grayscale, has been partially written for you and should transform rosegarden.png to grayscale.
+
+Compiling the Code
+To compile your code, run the following:
+
+make
+Testing the Code
+After compiling your code, an executable named lab_intro should be located in your working directory. To test your code, run lab_intro:
+
+./lab_intro
+This will make several png images as out-*.png in your current directory, where * denotes the manipulation done to the image. You can view it by opening the image.
