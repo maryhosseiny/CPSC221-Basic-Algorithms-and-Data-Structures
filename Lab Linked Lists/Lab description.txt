@@ -1,1 +1,69 @@
-To be uploaded
+ In this lab, some linked list methods were implemented and checks for memory leaks were performed using Valgrind.
+
+The following methods in linked_list.cpp were implemented:
+- void delete_last_element(Node*& head);
+- void remove(Node*& head, int oldKey);
+- void insert_after(Node* head, int oldKey, int newKey);
+- Node* interleave(Node* list1, Node* list2);
+
+The following output is shown when the functions are implemented correctly:
+<A> list1: [3, 2, 1]
+<B> list2: [6, 7, 8, 9, 10]
+<C> delete_last_element(list1): [3, 2]
+<D> delete_last_element(list1): [3]
+<E> delete_last_element(list1): []
+<F> list1: [5, 10, 15]
+<F> remove(list1,10): [5, 15]
+<F> remove(list1,15): [5]
+<F> remove(list1,5): []
+<G> list1: [11]
+<G> insert_after(list1,11,12): [11, 12]
+<H> insert_after(list1,13,14): [11, 12]
+<I> insert_after(list1,11,12): [11, 12, 12]
+<J> delete_last_element(list1): [11, 12]
+<K> interleave(list1,list2): [11, 6, 12, 7, 8, 9, 10]
+<L> interleave(list2,list2): [6, 6, 7, 7, 8, 8, 9, 9, 10, 10]
+<M> interleave(list1,NULL): [11, 12]
+<N> interleave(NULL,list2): [6, 7, 8, 9, 10]
+<O> interleave(NULL,NULL): []
+
+Valgrinf Notes
+
+Valgrind is a free utility for memory debugging, memory leak detection, and profiling. It runs only on Linux systems. In order to test your linked list program with Valgrind you should use the following command:
+valgrind ./lists
+
+To instruct valgrind to also check for memory leaks, run:
+valgrind --leak-check=full ./lists
+
+If your program has no memory leaks, you will see something similar to the following output:
+==873== HEAP SUMMARY:
+==873==     in use at exit: 0 bytes in 0 blocks
+==873==   total heap usage: 137 allocs, 137 frees, 75,692 bytes allocated
+==873==
+==873== All heap blocks were freed -- no leaks are possible
+==873==
+==873== For lists of detected and suppressed errors, rerun with: -s
+==873== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+Some errors that Valgrind can detect and report:
+- Invalid read/write errors. This error will happen when your code reads or writes to a memory address which you did not allocate. Sometimes this error occurs when an array is indexed beyond its boundary, which is referred to as an "overrun" error. Unfortunately, Valgrind is unable to check for locally-allocated arrays (i.e., those that are on the stack.) Overrun checking is only performed for dynamic memory.
+    int * arr = new int[6];
+    arr[10] = -5;
+
+- Use of an uninitialized value. This type of error will occur when your code uses a declared variable before any kind of explicit assignment is made to the variable.
+    int x;
+    cout << x << endl;
+
+- Invalid free error. This occurs when your code attempts to delete allocated memory twice, or delete memory that was not allocated with new.
+    int * x = new int;
+    delete x;
+    delete x;
+
+- Mismatched free() / delete / delete []. Valgrind keeps track of the method your code uses when allocating memory. If it is deallocated with different method, you will be notified about the error.
+    int * x = new int[6];
+    delete x;
+
+- Memory leak detection - Valgrind can detect three sources of memory leakage:
+    A still reachable block happens when you forget to delete an object, the pointer to the object still exists, and the memory for object is still allocated.
+    A lost block is a little tricky. A pointer to some part of the block of memory still exists, but it is not clear whether it is pointing to the block or is independent of it.
+    A definitely lost block occurs when the block is not deleted but no pointer to it is found.
