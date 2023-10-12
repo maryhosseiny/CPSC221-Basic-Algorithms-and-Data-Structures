@@ -1,1 +1,57 @@
+Sum of Digits:
+Given a non-negative int n, return the sum of its digits recursively (no loops). Note that modulo (%) by 10 yields the rightmost digit (126 % 10 == 6), while divide (/) by 10 removes the rightmost digit (126 / 10 == 12).
 
+int sumDigits(int n);
+// sumDigits(126) -> 1 + 2 + 6 -> 9
+// sumDigits(49)  -> 4 + 9     -> 13
+// sumDigits(12)  -> 1 + 2     -> 3
+
+Triangle:
+We have triangle made of blocks. The topmost row has 1 block, the next row down has 2 blocks, the next row has 3 blocks, and so on:
+
+*
+**
+***
+...
+Compute recursively (no loops or multiplication) the total number of blocks in such a triangle with the given number of rows.
+
+int triangle(int rows);
+// triangle(0) -> 0
+// triangle(1) -> 1
+// triangle(2) -> 3
+
+Note These examples were stolen from http://codingbat.com/java/Recursion-1. All credit goes to CodingBat. If you are having a hard time with sum (below), we encourage you to go to CodingBat and try more recursive exercises. These are in Java, but there are links at the bottom of the page describing the differences of strings and arrays in Java from C++, which are minor.
+
+The sum Function:
+Write a function called sum that takes one stack by reference, and returns the sum of all the elements in the stack, leaving the original stack in the same state (unchanged). You may modify the stack, as long as you restore it to its original values. You may use only two local variables of type T in your function. Note that this function is templatized on the stack's type, so stacks of objects overloading the addition operator (operator+) can be summed. Hint: think recursively!
+
+template <typename T>
+T QuackFun::sum(stack<T> & s);
+
+Non Recursive Exercise
+
+The scramble Function:
+Your task is to write a function called scramble that takes one argument: a reference to a std::queue.
+
+template <typename T>
+void QuackFun::scramble(queue<T> & q);
+
+You may use whatever local variables you need. The function should reverse the order of SOME elements in the queue, and maintain the order of others, according to the following pattern:
+
+The first element stays on the front of the queue.
+Then the next two elements are reversed.
+Then the next three elements are placed on the queue in their original order.
+Then the next four elements are reversed.
+Then the next five elements are place on the queue in their original order.
+etc.
+Hint: You'll want to make a local stack variable.
+
+For example, given the following queue,
+
+front                                         back
+0   1 2   3 4 5   6 7 8 9   10 11 12 13 14   15 16
+we get the following result:
+
+front                                         back
+0   2 1   3 4 5   9 8 7 6   10 11 12 13 14   16 15
+Any "leftover" numbers should be handled as if their block was complete. (See the way 15 and 16 were treated in our example above.)
