@@ -1,1 +1,138 @@
+Assignment Description
+In this lab you will be implementing functions on hash tables with two different collision resolution strategies—separate chaining and linear probing. These hash tables serve an implementation of the dictionary abstract data type. In the second part of the lab you will use the dictionary to solve some problems.
 
+Note that there are a LOT of files in this lab—don't get too intimidated as you won't be modifying the vast majority of them.
+
+Notes About list Iterators
+When you are working with the Separate Chaining Hash Table, you will need to iterate over the linked list of a given bucket. Since the hash tables are templatized, however, this causes us a slight headache syntactically in C++. To define a list iterator on a given bucket, you will need to declare it as follows:
+
+typename list< pair<K,V> >::iterator it = table[i].begin();
+Alternatively you can just use auto and have the compiler worry about the type:
+
+auto it = table[i].begin();
+Also note that if you do not insert your data at the head of the bucket, you may end up with your results being in a different order than ours.
+
+If you use the list::erase() function, be advised that if you erase the element pointed to by an iterator that the parameter iterator is no longer valid. For instance:
+auto it = table[i].begin();
+table[i].erase(it);
+it++;
+is invalid because it is invalidated after the call to erase(). So, if you are looping with an iterator, remember a break statement after you call erase()!
+Checking Out The Code
+You can download to code here: lab_hash.zip. As usual, please upload the files onto the school's Linux servers and complete the lab there.
+
+Note that there are a lot of files, but you only will need to modify four of them, and the spec guides you through which functions you have to implement. Don't panic!
+
+For reference, here are the only files you need to modify (and submit for credit):
+
+lphashtable.cpp
+schashtable.cpp
+word_counter.cpp
+anagram_finder.cpp
+Review the .h files
+It goes without saying that .h files are a great way to understand how the code works. In particular, we are implementing hash tables with two different collision resolution methods—separate chaining, and linear probing. Both types of hash tables are subclasses of the HashTable class. Take a look at the hashtable.h file before proceeding.
+
+remove and resizeTable on a Separate Chaining Hash Table
+Open your schashtable.cpp file. In this file, the above two functions have not been implemented—your job is to implement them.
+
+remove
+Given a key, remove it from the hash table.
+If the given key is not in the hash table, do nothing.
+resizeTable
+This is called when the load factor for our table is >= 0.7. The function shouldResize checks this and is already implemented for you.
+It should resize the internal array for the hash table. Use the return value of findPrime with a parameter of double the current size to set the size. See other calls to resize for reference.
+You can find the specs for findPrime and the declaration for 'size' in hashtable.h
+You will want to look at schashtable.h to see how the SCHashTable is actually implemented.
+insert on a Linear Probing Hash Table
+Open your lphashtable.cpp. In this file, you will be implementing the insert function.
+
+insert, given a key and a value, should insert the (key, value) pair into the hash table. Remember to check if the array needs to be resized prior to insertion.
+Remember the collision handling strategy for linear probing! (To maintain compatibility with our outputs, you should probe by moving forwards through the internal array, not backwards).
+Check the lphashtable.h file to make sure the appropriate fields have been updated. For example, the should_probe array flags whether we continue to probe forwards in the array if the key is not found at the current index.
+You do not need to concern yourself with duplicate keys—simply treat the duplicate key as normal. However, when in client code and using our hash tables, the proper procedure for updating a key is to first remove the key, then re-insert the key with the new data value (which we will not do today).
+You MUST handle collisions in your insert function, or your hash table will be broken!
+
+Test Your Code Using charcount
+The CharFreq class has already been implemented for you. Type the following into the terminal:
+
+make charcount
+This will make the charcount executable. This file takes two arguments: the first is the file to analyse, and the second is the frequency for which to return characters. For example, a run on SherlockHolmes.txt for characters with frequency greater or equal to 10000 might look like:
+
+$ ./charcount SherlockHolmes.txt 10000 schash
+Finding chars in SherlockHolmes.txt with frequency >= 10000 using SCHashTable...
+54944	e
+40511	t
+36142	a
+34869	o
+31248	i
+29731	n
+29579	h
+27965	s
+25684	r
+19100	d
+17636	l
+13636	u
+12155	m
+11534	w
+11103	c
+Note You should verify that your solution outputs the right values for both kinds of hash tables!! You can test each one by changing the third command line argument to "schash" or "lphash", respectively.
+Implement the WordFreq Class
+Now we will write our own application for a hash table! Open word_counter.cpp. You will be writing the getWords function. This function, given an integer threshold, should return a vector of (string, int) pairs. Each of these pairs is a string and its frequency in the file. Your vector should only contain those pairs whose frequencies are greater than or equal to threshold. Look at char_counter.cpp if you are stuck. You may find the TextFile class defined in textfile.h helpful.
+
+Test Using the wordcount Executable
+When you're done with the above, type the following into your terminal:
+
+make wordcount
+This will build the wordcount executable, which uses the WordFreq class to determine word frequencies in a file. It, like charcount, takes two arguments: the first is the path to the file to be analyzed, and the second is the threshold for which to grab words. If a word occurs >= threshold times, it will be printed to the console.
+
+For example, a run of wordcount on metamorphoses.txt with a frequency 1000 might look like:
+
+$ ./wordcount metamorphoses.txt 1000 lphash
+Finding words in metamorphoses.txt with frequency >= 1000 using LPHashTable...
+10473   the
+5753    of
+4739    and
+3078    to
+2246    a
+1989    in
+1706    was
+1572    his
+1548    that
+1500    her
+1456    with
+1306    is
+1241    he
+1185    by
+You should verify your solution works with both kinds of hash tables.
+
+Implement the AnagramFinder Class
+Finding anagrams is another clever use of hash tables. Open anagram_finder.cpp. You will be writing the checkWord function, which simply returns a boolean value. It should return true if the string test is an anagram of word, and false otherwise.
+
+An anagram of a given word is a word which has the same letters. For example, "retinas" and "stainer" are anagrams of each other. Think carefully about what it means for a word to be an anagram of another. Can we use a hash table to keep track of something? Perhaps counting letter frequencies will help you?
+
+Note: the proper procedure to update a value in our hash tables is to remove the key from the hash table, and re-insert the key with the new value.
+
+Test Using the anagramtest Executable
+When you're done with the above, type the following into your terminal:
+
+make anagramtest
+This will make the anagramtest executable, which you can use to test your AnagramFinder class. It can be run with or without arguments. Without arguments will test a very simplistic example—with arguments is more interesting.
+
+anagramtest can also take two arguments: the first is the path to the file to be analyzed, and the second is the word to find anagrams for. For example, a run of anagramtest on words.txt looking for anagrams of retinas might look like:
+
+$ ./anagramtest words.txt retinas schash
+Checking file words.txt for anagrams of retinas using SCHashTable...
+anestri is an anagram of retinas
+asterin is an anagram of retinas
+eranist is an anagram of retinas
+nastier is an anagram of retinas
+ratines is an anagram of retinas
+resiant is an anagram of retinas
+restain is an anagram of retinas
+retains is an anagram of retinas
+retinas is an anagram of retinas
+retsina is an anagram of retinas
+sainter is an anagram of retinas
+stainer is an anagram of retinas
+starnie is an anagram of retinas
+stearin is an anagram of retinas
+You should verify your solution works with both kinds of hash tables to verify their correctness as well.
