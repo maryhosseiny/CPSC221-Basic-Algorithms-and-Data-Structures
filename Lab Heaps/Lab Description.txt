@@ -1,1 +1,43 @@
+Assignment Description
+In this lab you will write some heap functions to implement a heap from scratch.
 
+The version of heap you will implement will have a tree implemented in an array. Your array can be 0-indexed or 1-indexed, where 0 and 1 are the indices of the root, depending on which one you choose.
+
+The left and right children of the root will be at the positions immediately after the root. For example, if your root is at index 0, its left child will be at index 1, and its right child will be at index 2. The root's left child's children will be at positions 3 and 4, and the root's right child's children will be at positions 5 and 6, and so on. You will need to determine the indices to store these children in leftChild() and rightChild(), and the indices of each element's parent in parent().
+
+Remember that the big idea about a heap is that it must keep its heap property. In a min heap, this means that each element is smaller than both of its children. A max heap is the opposite - each element is larger than both of its children. Your maxPriorityChild() function will return the min child (out of an element's left and right children) in a min heap and the max child in a max heap. This is not a recursive function - it simply utilizes the higherPriority functor (described below) and returns whichever child out of the two is less than or greater than the other, depending on what the priority for this heap is. Your heapifyUp() and heapifyDown() functions will ensure the heap property of your heap, by swapping elements recursively up or down the tree to maintain the heap property.
+
+Getting The Code
+As usual, download the files here: lab_heaps.zip and copy them on the Linux servers.
+
+Implementation
+The only file you need to modify in this lab is heap.cpp. Here is a list of the methods you should implement:
+
+Private Methods:
+
+root(): Returns the index of the root: 0 for a 0-indexed heap, 1 for 1-indexed.
+leftChild(): Returns the index of the left child of the element.
+rightChild(): Returns the index of the right child of the element.
+parent(): Returns the index of the parent of the element.
+hasAChild(): Determines if the current element has a child (aka if it isn't a "leaf node").
+maxPriorityChild(): Determines the child with the maximum priority.
+heapifyDown(): Maintains heap property by "sinking" a node down. When we pop an element, we heapifyDown() the new root so that the heap's property is maintained. We have already written heapifyUp() for you as an example, you should refer to that as an example.
+Public Methods:
+
+Constructors: one for building an empty heap, one for building a heap from a given array of elements. Your algorithm for building a heap should call heapifyDown() so that it constructs the same heap as our test case. If your heap is 1-indexed, you should follow the method described in lecture to deal with the element at index 0.
+pop(): Pops the element with the highest priority, as defined by the higherPriority functor. Maintains heap property by calling heapifyDown().
+peek(): Returns the element with the highest priority.
+push(): Pushes an element into the heap, then calls heapifyUp() to maintain heap property.
+empty(): Determines if your heap is empty.
+Don't forget to review the .h file if you are confused about how a function should be implemented!
+
+NOTE: The .h file describes the higherPriority functor. This is a variable that stores a function, and is of type Compare. Doing so allows the user to specify the type of heap (min-heap, max-heap) dynamically. By default, Compare resolves to std::less (or the < operator), which is correct for the min-heap that we are implementing today. Assume that higherPriority is a two-parameter function that is available to you in your implementation.
+
+Testing Your Code
+You can test your implementation by running:
+
+./heapfun            // Runs heapfun. You can diff the output with soln_heapfun.out
+./heapfun color      // colorizes the output of heapfun (green for correct output
+                     //    red for incorrect output, or red underlines for missing output)
+./heapfun > out.txt  // Redirects the output to the file "out.txt" so you can diff it with soln_heapfun.out
+./testheap           // Tests heap functions.
